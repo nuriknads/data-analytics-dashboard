@@ -11,6 +11,17 @@ commit_count = 60  # количество коммитов
 delta = (end_date - start_date) / commit_count
 current_date = start_date
 
+# список сообщений коммитов
+messages = [
+    "Added chart view",
+    "Fixed data serialization bug",
+    "Refactored dashboard API",
+    "Updated README",
+    "Improved query performance",
+    "Added filtering feature",
+    "Updated UI styling",
+]
+
 for i in range(commit_count):
     # создаём или изменяем dummy файл
     with open("dummy_file.txt", "a", encoding="utf-8") as f:
@@ -32,13 +43,16 @@ for i in range(commit_count):
     env["GIT_COMMITTER_DATE"] = commit_date_str
     env["GIT_AUTHOR_DATE"] = commit_date_str
 
+    # выбираем случайное сообщение из списка
+    commit_message = random.choice(messages)
+
     # git commit
     subprocess.run(
-        ["git", "commit", "-m", f"Fake commit {i+1} on {commit_date_str}"],
+        ["git", "commit", "-m", commit_message],
         env=env
     )
 
     # смещаем дату
     current_date += delta + timedelta(days=random.randint(0, 3))
 
-print("Фейковые коммиты созданы!")
+print("Фейковые коммиты с разными сообщениями созданы!")
